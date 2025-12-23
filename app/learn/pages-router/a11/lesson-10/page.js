@@ -31,6 +31,31 @@ export default function Lesson10Page() {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             1. Authentication & Session Management
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Authentication in Pages Router is typically handled through{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getServerSideProps
+            </code>
+            , where you check authentication status on each request. Sessions
+            can be managed using JWTs in cookies, server-side sessions, or
+            external authentication providers.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Implementation Approaches:</strong> JWT-based authentication
+            stores tokens in httpOnly cookies for security. Session-based
+            authentication uses server-side sessions stored in databases or
+            Redis.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getServerSideProps
+            </code>{" "}
+            runs on every request, making it perfect for authentication checks
+            and redirects. Always validate tokens server-side, use secure cookie
+            settings (httpOnly, secure, sameSite), implement token expiration
+            and refresh mechanisms, and handle both authenticated and
+            unauthenticated states gracefully. Consider using libraries like
+            NextAuth.js for production applications as they handle many security
+            concerns and edge cases.
+          </p>
           <CodeBlock
             code={`// Session management with JWT
 // lib/auth.js
@@ -108,6 +133,31 @@ export async function getServerSideProps(context) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             2. Internationalization (i18n)
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Implementing i18n in Pages Router involves detecting user locale,
+            managing translations, and rendering content in the appropriate
+            language. Libraries like next-i18next provide utilities for
+            translation management, locale detection, and route localization.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Implementation Strategy:</strong> Use locale-based routing
+            where the locale is part of the URL (e.g., /en/page, /fr/page) for
+            better SEO and explicit language selection. Libraries handle
+            translation loading, date/number formatting, and locale-specific
+            content.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getStaticPaths
+            </code>{" "}
+            can generate pages for each locale, and{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getStaticProps
+            </code>{" "}
+            loads the appropriate translations. Middleware can detect locale
+            from headers and redirect to the appropriate version. Consider
+            performance - generating static pages for multiple locales
+            multiplies build time. Always provide a language switcher and ensure
+            proper fallback handling for missing translations.
+          </p>
           <CodeBlock
             code={`// Using next-i18next
 // next-i18next.config.js
@@ -173,6 +223,30 @@ export async function getStaticProps({ params }) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             3. Preview Mode
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Preview Mode allows content editors to preview draft or unpublished
+            content without affecting the production site. It's particularly
+            useful for headless CMS integrations where editors need to see how
+            content will look before publishing.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>How it Works:</strong> Preview Mode sets a cookie that
+            enables preview mode for the current user. When enabled,{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getStaticProps
+            </code>{" "}
+            receives{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              preview: true
+            </code>{" "}
+            in the context, allowing you to fetch draft content instead of
+            published content. The preview data is stored in the cookie,
+            allowing you to pass additional context like which draft to preview.
+            Always protect preview endpoints with authentication - you don't
+            want unauthorized users accessing draft content. Provide clear
+            visual indicators when preview mode is active, and make it easy to
+            exit preview mode.
+          </p>
           <CodeBlock
             code={`// pages/api/preview.js
 export default async function handler(req, res) {
@@ -225,6 +299,29 @@ export default function Page({ data }) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             4. Redirects & Rewrites
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Redirects send users to a different URL (useful for moved pages or
+            URL changes), while rewrites internally forward requests to
+            different paths without changing the URL (useful for proxying or URL
+            masking). Both are configured in{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              next.config.js
+            </code>
+            .
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>When to Use Each:</strong> Use redirects when you've moved
+            content permanently (301/308) or temporarily (307) and want search
+            engines to update their indexes. Use rewrites when you want to mask
+            URLs, proxy to external APIs, or serve content from different paths
+            without exposing the internal structure. Redirects are visible to
+            users (URL changes), while rewrites are invisible (URL stays the
+            same). Be careful with redirect chains - they hurt SEO and
+            performance. Always use permanent redirects (301/308) for permanent
+            moves and temporary (307) for temporary redirects. Rewrites can be
+            used to proxy API requests, hide internal routing structure, or
+            serve content from different sources.
+          </p>
           <CodeBlock
             code={`// next.config.js
 module.exports = {
@@ -279,6 +376,25 @@ export async function getServerSideProps(context) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             5. Middleware & Edge Functions
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Middleware runs before requests reach your pages or API routes,
+            making it perfect for authentication, A/B testing, logging, or
+            request modification. Edge Functions run on Vercel's Edge Network,
+            providing ultra-low latency but with limitations (Web APIs only, no
+            Node.js APIs, smaller bundle size).
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Use Cases:</strong> Middleware is ideal for authentication
+            checks, redirects based on conditions, setting headers, bot
+            detection, geolocation-based routing, or A/B testing. Edge Runtime
+            provides faster response times (closer to users) but has
+            limitations: no Node.js APIs, smaller bundle size limits (~1MB), and
+            Web Standard APIs only. Use Edge Runtime for simple operations that
+            benefit from low latency. Use Node.js runtime for complex operations
+            requiring full Node.js capabilities. Middleware can modify
+            requests/responses, redirect, rewrite, or set headers before the
+            request reaches your route handlers.
+          </p>
           <CodeBlock
             code={`// middleware.js (or proxy.ts in Next.js 16)
 import { NextResponse } from 'next/server';
@@ -320,6 +436,28 @@ export default function handler(req) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             6. Multi-zone Deployments
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Multi-zone deployments allow you to split your application into
+            multiple Next.js applications that are deployed independently but
+            appear as a single application to users. Each zone can have its own
+            deployment pipeline, version, and domain while sharing the same
+            domain through rewrites or proxies.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>When to Use:</strong> Multi-zone is useful when you have a
+            large application where different teams own different sections
+            (e.g., marketing site and application), when you want independent
+            deployments for different parts, or when you need different scaling
+            strategies for different zones. Each zone is a separate Next.js app
+            with its own{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              basePath
+            </code>{" "}
+            configuration. They can be deployed separately, allowing independent
+            versioning and deployment cycles. Cross-zone navigation requires
+            full URLs or careful Link configuration. Consider SEO implications -
+            each zone should have proper canonical URLs and sitemaps.
+          </p>
           <CodeBlock
             code={`// Multi-zone setup
 // next.config.js (main app)

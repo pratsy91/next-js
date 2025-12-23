@@ -111,6 +111,35 @@ export default function Page() {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             2. Static Meta Tags
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Static meta tags are defined directly in your components using{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              next/head
+            </code>
+            . They're perfect for pages where metadata doesn't change based on
+            data or route parameters. Essential meta tags include title,
+            description, keywords, viewport settings, and canonical URLs.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Essential Meta Tags:</strong> The{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              title
+            </code>{" "}
+            tag is critical for SEO and appears in browser tabs and search
+            results. Keep it under 60 characters for optimal display. The{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              description
+            </code>{" "}
+            meta tag should be 150-160 characters and compelling enough to
+            encourage clicks from search results. The{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              viewport
+            </code>{" "}
+            tag ensures proper mobile rendering. Canonical URLs prevent
+            duplicate content issues. Robots meta tags control how search
+            engines index your pages. Always include these core tags for every
+            page.
+          </p>
           <CodeBlock
             code={`import Head from 'next/head';
 
@@ -333,6 +362,28 @@ export default function Page() {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             6. Structured Data (JSON-LD)
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Structured data (also called Schema.org markup or JSON-LD) helps
+            search engines understand your content better, enabling rich
+            snippets in search results. Rich snippets can include ratings,
+            prices, dates, authors, and more, making your listings more
+            attractive and informative.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>How it works:</strong> JSON-LD (JavaScript Object Notation
+            for Linked Data) is a format for embedding structured data in HTML
+            using a script tag with{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              type="application/ld+json"
+            </code>
+            . The data follows Schema.org vocabulary, which is a standardized
+            way to describe things. Common schemas include Article, Product,
+            Organization, BreadcrumbList, and FAQPage. Search engines parse this
+            data and may display it as rich results, which can significantly
+            improve click-through rates. Always validate your structured data
+            using Google's Rich Results Test tool to ensure it's properly
+            formatted.
+          </p>
           <CodeBlock
             code={`import Head from 'next/head';
 

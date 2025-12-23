@@ -443,6 +443,45 @@ export default async function handler(
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             5. Context Parameter Reference
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            The context parameter is passed to{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getStaticProps
+            </code>{" "}
+            and{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getServerSideProps
+            </code>
+            , providing access to route information, request details, and
+            Next.js-specific features. Understanding what's available in the
+            context is essential for building dynamic pages and handling various
+            scenarios.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Key Context Properties:</strong>{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              params
+            </code>{" "}
+            contains dynamic route parameters (available in both), which is
+            crucial for dynamic routes.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              req
+            </code>{" "}
+            and{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              res
+            </code>{" "}
+            are only available in getServerSideProps, giving you full access to
+            HTTP request and response objects for authentication, headers,
+            cookies, etc.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              query
+            </code>{" "}
+            provides parsed query string parameters. Preview mode properties
+            allow content preview functionality. Understanding which properties
+            are available in which function helps you choose the right data
+            fetching method for your needs.
+          </p>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
               <thead className="bg-gray-50 dark:bg-gray-700">
@@ -546,6 +585,39 @@ export default async function handler(
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             6. Return Values Reference
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Data fetching functions must return a specific object structure that
+            tells Next.js how to handle the page. The return value determines
+            what props are passed to the component, whether to show a 404,
+            redirect to another page, or configure caching behavior.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Return Value Options:</strong>{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              props
+            </code>{" "}
+            is the most common - an object whose properties are passed to the
+            page component.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              revalidate
+            </code>{" "}
+            enables ISR by specifying revalidation time in seconds.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              notFound: true
+            </code>{" "}
+            shows the 404 page, useful when data doesn't exist.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              redirect
+            </code>{" "}
+            sends users to another page (permanent=true uses 308, false uses
+            307).{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              cache
+            </code>{" "}
+            (getServerSideProps only) controls response caching. You can only
+            return one of props, redirect, or notFound - they're mutually
+            exclusive.
+          </p>
           <CodeBlock
             code={`// props: Object passed to page component
 return {
@@ -591,6 +663,28 @@ return {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             7. Data Fetching Patterns
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Choosing the right data fetching pattern significantly impacts
+            performance and user experience. The key is understanding when to
+            fetch data in parallel versus sequentially, and how to properly
+            handle errors and edge cases.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Parallel vs Sequential:</strong> Always fetch independent
+            data sources in parallel using{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              Promise.all()
+            </code>{" "}
+            - this minimizes total loading time. Use sequential fetching only
+            when one operation depends on another's result (e.g., fetching user
+            data first, then fetching that user's posts using their ID). Error
+            handling should use try-catch blocks, returning{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              notFound: true
+            </code>{" "}
+            for missing resources or redirecting to error pages for other
+            failures. Always validate data exists before returning it as props.
+          </p>
           <CodeBlock
             code={`// Parallel fetching
 export async function getStaticProps() {

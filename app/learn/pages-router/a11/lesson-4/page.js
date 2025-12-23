@@ -191,6 +191,38 @@ export default function handler(req, res) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             4. Dynamic API Routes
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Dynamic API routes use the same bracket syntax as pages (
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              [id].js
+            </code>
+            ,{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              [...slug].js
+            </code>
+            ) to create parameterized API endpoints. The route parameters are
+            available via{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              req.query
+            </code>
+            , allowing you to build RESTful APIs with dynamic segments.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Common Patterns:</strong> Single dynamic segments like{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              [id].js
+            </code>{" "}
+            are perfect for resource-specific endpoints (GET /api/users/123, PUT
+            /api/users/123, DELETE /api/users/123). Catch-all routes{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              [...slug].js
+            </code>{" "}
+            handle variable-depth paths, useful for proxy endpoints or nested
+            resource structures. Always validate dynamic parameters before using
+            them, as they're user-controlled and could contain malicious input.
+            Use the same validation patterns you'd use for any user input - type
+            checking, format validation, and sanitization.
+          </p>
           <CodeBlock
             code={`// pages/api/users/[id].js
 export default function handler(req, res) {
@@ -228,6 +260,25 @@ export default function handler(req, res) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             5. Body Parsing & Validation
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Next.js automatically parses request bodies based on Content-Type
+            headers. JSON bodies are parsed to objects, FormData is available
+            for multipart/form-data, and text bodies can be read as strings.
+            However, you must always validate and sanitize input data before
+            using it, as user input is inherently untrusted.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Validation Best Practices:</strong> Always validate required
+            fields, data types, and formats. Check string lengths, numeric
+            ranges, and format patterns (emails, URLs, etc.). Use validation
+            libraries like Zod, Yup, or Joi for schema-based validation. Never
+            trust user input - validate on the server even if you validate on
+            the client. Sanitize data to prevent injection attacks (SQL
+            injection, XSS). Return clear error messages for validation failures
+            (400 status) to help API consumers fix their requests. Validation
+            should happen early in the handler, before any processing or
+            database operations.
+          </p>
           <CodeBlock
             code={`export default function handler(req, res) {
   if (req.method !== 'POST') {
@@ -381,6 +432,26 @@ export default function handler(req, res) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             8. API Route Middleware Pattern
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Higher-order functions (HOFs) can wrap API route handlers to add
+            cross-cutting concerns like authentication, logging, error handling,
+            or rate limiting. This pattern promotes code reuse and separation of
+            concerns by extracting common logic into reusable middleware
+            functions.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Benefits:</strong> Middleware functions reduce code
+            duplication by extracting shared logic. They make routes cleaner and
+            more focused on business logic. Middleware can be composed, allowing
+            you to chain multiple concerns (authentication → authorization →
+            logging → handler). This pattern is particularly useful for
+            authentication checks, request logging, error handling, CORS, rate
+            limiting, or request transformation. Each middleware function
+            receives the handler, can modify the request/response, and must call
+            the handler or return early. For interview purposes, understand how
+            to compose middleware, handle async operations, and maintain proper
+            error propagation.
+          </p>
           <CodeBlock
             code={`// Middleware helper
 function withAuth(handler) {

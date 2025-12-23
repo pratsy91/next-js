@@ -263,6 +263,30 @@ module.exports = {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             4. Font Optimization (next/font)
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            The{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              next/font
+            </code>{" "}
+            package optimizes fonts automatically by downloading and
+            self-hosting them at build time. This eliminates external font
+            requests, reduces layout shift, improves privacy, and ensures fonts
+            are always available.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Benefits:</strong> Fonts are self-hosted, so there are no
+            requests to external services (like Google Fonts), improving privacy
+            and eliminating external dependencies. Next.js automatically
+            generates font-face CSS and optimizes font files. The{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              display: 'swap'
+            </code>{" "}
+            option shows fallback text immediately, preventing invisible text
+            during font load (FOIT). Font subsetting includes only characters
+            used in your app, reducing file size. This prevents render-blocking
+            font requests and eliminates the flash of unstyled text (FOUT) or
+            invisible text (FOIT) that can hurt user experience.
+          </p>
           <CodeBlock
             code={`import { Inter, Roboto } from 'next/font/google';
 
@@ -301,6 +325,37 @@ const myFont = localFont({
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             5. Script Optimization (next/script)
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            The{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              next/script
+            </code>{" "}
+            component optimizes third-party script loading by controlling when
+            scripts execute. This prevents scripts from blocking page rendering
+            and improves Core Web Vitals, particularly First Input Delay (FID)
+            and Time to Interactive (TTI).
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Loading Strategies Explained:</strong>{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              afterInteractive
+            </code>{" "}
+            loads scripts after the page becomes interactive, perfect for
+            analytics and chat widgets that don't need to run immediately.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              lazyOnload
+            </code>{" "}
+            defers scripts until browser idle time, ideal for non-critical
+            scripts like social media embeds.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              beforeInteractive
+            </code>{" "}
+            loads before hydration, only for critical scripts like polyfills.
+            Always use the least aggressive strategy - most third-party scripts
+            don't need to block rendering. This can improve page load times by
+            20-30% or more depending on the number and size of third-party
+            scripts.
+          </p>
           <CodeBlock
             code={`import Script from 'next/script';
 
@@ -341,6 +396,27 @@ export default function Page() {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             6. Static Export
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Static export generates a fully static version of your Next.js
+            application that can be deployed to any static hosting service
+            (GitHub Pages, Netlify, Vercel, AWS S3, etc.). This creates
+            pre-rendered HTML files for all pages, eliminating the need for a
+            Node.js server.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>When to Use:</strong> Static export is ideal for sites with
+            all static content, blogs, documentation sites, marketing pages, or
+            JAMstack applications. It provides the best performance and lowest
+            cost since there's no server to maintain. However, it has
+            limitations: no API routes (they're excluded), no{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getServerSideProps
+            </code>{" "}
+            (only static generation), no image optimization (unless using
+            external service), and no rewrites or redirects at runtime. All
+            routes must be pre-determinable at build time. For dynamic features,
+            you'd need to use client-side data fetching or external APIs.
+          </p>
           <CodeBlock
             code={`// next.config.js
 module.exports = {
@@ -374,6 +450,27 @@ module.exports = {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             7. Bundle Analyzer
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Bundle analyzers help you understand what's in your JavaScript
+            bundles, identify large dependencies, find duplicate code, and
+            optimize bundle sizes. The{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              @next/bundle-analyzer
+            </code>{" "}
+            package provides interactive visualizations of your bundle
+            composition.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>How to Use:</strong> The analyzer generates interactive
+            treemaps showing bundle sizes, module sizes, and which packages
+            contribute the most to bundle size. This helps you identify
+            optimization opportunities - large libraries that could be
+            dynamically imported, duplicate code that could be deduplicated, or
+            unnecessary dependencies. Regular bundle analysis should be part of
+            your performance optimization workflow. Look for packages over
+            100KB, opportunities for code splitting, and duplicate dependencies
+            that could be resolved through better dependency management.
+          </p>
           <CodeBlock
             code={`// Install
 npm install @next/bundle-analyzer
@@ -412,6 +509,34 @@ npm run analyze
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             8. Performance Monitoring
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Monitoring real user performance metrics is essential for
+            understanding how your application performs in production. Core Web
+            Vitals (LCP, FID, CLS) are Google's metrics for measuring user
+            experience, and they directly impact SEO rankings.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Core Web Vitals Explained:</strong>{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              Largest Contentful Paint (LCP)
+            </code>{" "}
+            measures loading performance - should be under 2.5 seconds.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              First Input Delay (FID)
+            </code>{" "}
+            measures interactivity - should be under 100ms.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              Cumulative Layout Shift (CLS)
+            </code>{" "}
+            measures visual stability - should be under 0.1. The{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              web-vitals
+            </code>{" "}
+            library makes it easy to measure and report these metrics. You
+            should send these metrics to your analytics service to track
+            performance over time and identify regressions. Set up alerts for
+            performance degradation to catch issues early.
+          </p>
           <CodeBlock
             code={`// pages/_app.js
 import { useEffect } from 'react';

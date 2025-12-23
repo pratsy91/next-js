@@ -31,6 +31,43 @@ export default function Lesson9Page() {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             1. Project Structure Best Practices
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            A well-organized project structure improves maintainability, makes
+            code easier to find, and helps teams collaborate effectively. In
+            Pages Router, the{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              pages/
+            </code>{" "}
+            directory is special and determines routing, but you can organize
+            everything else as needed.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Organization Strategies:</strong> Flat structure works well
+            for small projects - pages at the root of{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              pages/
+            </code>{" "}
+            and shared components in a top-level{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              components/
+            </code>{" "}
+            directory. Feature-based organization groups related pages and
+            components together. Hybrid approaches combine both - feature
+            folders for major sections, shared components in a common location.
+            Keep{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              _app.js
+            </code>{" "}
+            and{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              _document.js
+            </code>{" "}
+            at the root of pages. Organize API routes logically in{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              pages/api/
+            </code>{" "}
+            to mirror your data structure or REST endpoints.
+          </p>
           <CodeBlock
             code={`// Recommended structure
 pages/
@@ -72,6 +109,32 @@ components/
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             2. Data Fetching Patterns
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Choosing the right data fetching method is crucial for performance
+            and user experience. Each method (getStaticProps,
+            getServerSideProps, client-side fetching) has specific use cases,
+            and using the wrong one can hurt performance or cause unnecessary
+            complexity.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Decision Framework:</strong> Use{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getStaticProps
+            </code>{" "}
+            when data is available at build time and doesn't change frequently -
+            this provides the best performance. Use{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getServerSideProps
+            </code>{" "}
+            when you need request-time data, user-specific content, or data that
+            changes frequently. Use client-side fetching (useEffect, SWR) for
+            user-specific data that doesn't need SEO or for data that updates
+            frequently after page load. Prefer static generation when possible -
+            it's faster and cheaper. Use ISR (Incremental Static Regeneration)
+            as a middle ground when you want static performance with periodic
+            updates. Always fetch data in parallel when sources are independent
+            to minimize loading time.
+          </p>
           <CodeBlock
             code={`// ✅ DO: Use getStaticProps for static content
 export async function getStaticProps() {
@@ -111,6 +174,41 @@ const [user, posts] = await Promise.all([
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             3. Error Handling Strategies
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Comprehensive error handling ensures your application gracefully
+            handles failures and provides helpful feedback to users. Pages
+            Router provides multiple error handling mechanisms: custom 404/500
+            pages, error handling in data fetching functions, and React error
+            boundaries.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Error Handling Layers:</strong> Custom{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              404.js
+            </code>{" "}
+            and{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              500.js
+            </code>{" "}
+            pages catch route-level errors and provide user-friendly error
+            pages. In{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getServerSideProps
+            </code>{" "}
+            or{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getStaticProps
+            </code>
+            , use try-catch and return{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              notFound: true
+            </code>{" "}
+            or redirects. React error boundaries catch JavaScript errors during
+            rendering. Always log errors server-side for debugging while showing
+            user-friendly messages. Implement retry logic for transient
+            failures. Provide clear error messages that help users understand
+            what went wrong and what they can do about it.
+          </p>
           <CodeBlock
             code={`// Custom 404 page
 // pages/404.js
@@ -176,6 +274,33 @@ class ErrorBoundary extends Component {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             4. Loading State Patterns
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Loading states provide visual feedback during data fetching and
+            navigation, improving perceived performance and user experience. In
+            Pages Router, loading states are handled differently for static
+            generation vs. server-side rendering vs. client-side fetching.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Loading Patterns:</strong> For{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getStaticPaths
+            </code>{" "}
+            with{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              fallback: true
+            </code>
+            , use{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              router.isFallback
+            </code>{" "}
+            to show loading UI. For client-side fetching, use state variables
+            and conditional rendering. For SSR, loading happens server-side, but
+            you may want skeleton loaders for perceived performance. Skeleton
+            loaders that match your content structure reduce perceived loading
+            time compared to generic spinners. Always show loading states
+            immediately - don't wait for delays. Use optimistic UI updates when
+            possible to make interactions feel instant.
+          </p>
           <CodeBlock
             code={`// Router loading state
 import { useRouter } from 'next/router';

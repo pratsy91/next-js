@@ -113,6 +113,74 @@ export default function MyApp({ Component, pageProps }) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             2. Page Props & getInitialProps
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getInitialProps
+            </code>{" "}
+            is a legacy data fetching method that can be added to{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              _app.js
+            </code>{" "}
+            to fetch global data that should be available to all pages. However,
+            this approach has significant drawbacks and should generally be
+            avoided in favor of modern alternatives.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Important Considerations:</strong> Adding{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getInitialProps
+            </code>{" "}
+            to{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              _app.js
+            </code>{" "}
+            disables Automatic Static Optimization for <strong>all</strong>{" "}
+            pages in your application, forcing everything to use SSR. This
+            significantly hurts performance since you lose the benefits of
+            static generation. The function receives an{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              appContext
+            </code>{" "}
+            that includes the router, request/response objects, and page
+            context. You must call{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              App.getInitialProps(appContext)
+            </code>{" "}
+            to ensure page-level{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getInitialProps
+            </code>{" "}
+            functions still work.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Modern Alternatives:</strong> Instead of{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getInitialProps
+            </code>{" "}
+            in{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              _app.js
+            </code>
+            , use{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getStaticProps
+            </code>{" "}
+            or{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getServerSideProps
+            </code>{" "}
+            in individual pages, or fetch global data client-side using React
+            Context or state management libraries. Only use{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              getInitialProps
+            </code>{" "}
+            in{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              _app.js
+            </code>{" "}
+            if you absolutely need global data fetching and understand the
+            performance implications.
+          </p>
           <CodeBlock
             code={`// pages/_app.js
 import App from 'next/app';
@@ -149,6 +217,27 @@ export default MyApp;
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             3. Global Error Handling
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Global error handling in{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              _app.js
+            </code>{" "}
+            allows you to catch and handle errors that occur anywhere in your
+            application. This provides a safety net for unhandled errors and
+            ensures users see a helpful error page rather than a blank screen or
+            crash.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Implementation Approaches:</strong> React Error Boundaries
+            (like react-error-boundary library) catch JavaScript errors in
+            component trees during rendering, lifecycle methods, and
+            constructors. They don't catch errors in event handlers, async code,
+            or during server-side rendering. You can also set up global error
+            listeners for unhandled errors and promise rejections. Always log
+            errors to an error tracking service (like Sentry) for debugging, and
+            provide user-friendly error messages with options to retry or
+            navigate away.
+          </p>
           <CodeBlock
             code={`// pages/_app.js
 import { ErrorBoundary } from 'react-error-boundary';

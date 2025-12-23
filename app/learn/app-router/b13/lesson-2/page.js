@@ -315,6 +315,52 @@ export const preferredRegion = 'auto'; // or specific region`}
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             4. Incremental Static Regeneration (ISR)
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Incremental Static Regeneration (ISR) allows you to update static
+            pages after they've been built without rebuilding the entire site.
+            It combines the performance benefits of static generation (fast CDN
+            delivery, excellent SEO) with the flexibility to update content
+            periodically, making it ideal for content that changes occasionally
+            but doesn't need to be real-time.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>How ISR Works:</strong> When you specify a{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              revalidate
+            </code>{" "}
+            time (in seconds), Next.js generates and caches the page at build
+            time. After the revalidation period expires, the next request
+            triggers a background regeneration of that page while still serving
+            the stale (but valid) cached version to users. Once regeneration
+            completes, future requests get the fresh page. This
+            "stale-while-revalidate" pattern ensures users always get fast
+            responses while content stays relatively fresh. The key benefit is
+            that regeneration happens incrementally - only the pages that are
+            requested after the revalidation period are regenerated, not the
+            entire site.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Use Cases:</strong> ISR is perfect for product pages where
+            prices or inventory change periodically, blog posts that get
+            occasional updates, news sites updated regularly but not in
+            real-time, or e-commerce sites where product information changes but
+            not every second. It's also valuable for large sites where
+            rebuilding everything would take too long - you can pre-render the
+            most important pages and generate others on-demand with ISR. For
+            interview purposes, understand that ISR provides a middle ground
+            between fully static generation (fastest, but completely stale) and
+            server-side rendering (fresh, but slower and more expensive).
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Interview Points:</strong> Know that ISR works on a per-page
+            basis - you can have different revalidation times for different
+            pages. Understand that the first request after the revalidation
+            period may be slower (it regenerates in the background), but
+            subsequent requests are fast. Be able to explain when ISR is better
+            than pure static generation or SSR. Understand the relationship
+            between ISR and on-demand revalidation (tags) - ISR is time-based,
+            while tags are event-based.
+          </p>
           <CodeBlock
             code={`// Time-based Revalidation
 export default async function ProductsPage() {
@@ -354,6 +400,56 @@ export default async function Page() {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             5. On-Demand Revalidation
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            On-demand revalidation allows you to invalidate and regenerate
+            cached pages immediately when content changes, rather than waiting
+            for a time-based revalidation period. This is perfect for content
+            management systems, e-commerce updates, or any scenario where you
+            need instant cache invalidation when data changes.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>How it Works:</strong> You create a Route Handler or Server
+            Action that calls{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              revalidatePath()
+            </code>{" "}
+            or{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              revalidateTag()
+            </code>{" "}
+            to invalidate specific paths or cache tags. When triggered (via API
+            call, webhook, or Server Action), Next.js immediately regenerates
+            those pages in the background. The old cached version is served
+            while regeneration happens, then fresh content is available for
+            subsequent requests. This provides event-driven cache updates -
+            content changes trigger immediate regeneration rather than waiting
+            for a timer.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Use Cases:</strong> CMS webhooks that trigger regeneration
+            when content is published or updated, e-commerce systems where
+            product updates should appear immediately, blog platforms where new
+            posts should be visible right away, or any system where time-based
+            revalidation would be too slow or wasteful.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              revalidatePath()
+            </code>{" "}
+            invalidates specific routes, while{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              revalidateTag()
+            </code>{" "}
+            invalidates all data tagged with that tag, making it more efficient
+            for related content that spans multiple routes.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Security Considerations:</strong> Always protect
+            revalidation endpoints with a secret token to prevent unauthorized
+            cache invalidation. Never expose revalidation endpoints publicly
+            without authentication. Use environment variables for secrets and
+            validate them in your revalidation handler. This prevents malicious
+            actors from triggering expensive regeneration operations or causing
+            denial of service attacks.
+          </p>
           <CodeBlock
             code={`// app/api/revalidate/route.js
 import { revalidatePath, revalidateTag } from 'next/cache';
@@ -402,6 +498,50 @@ export async function updateProduct(id, data) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             6. Cache Tags & Cache Keys
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Cache tags provide a way to group related cached data so you can
+            invalidate multiple items at once. Instead of manually invalidating
+            each individual path, you tag related data and invalidate by tag.
+            This is particularly powerful for content that's related but stored
+            across multiple routes or data sources.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>How Tags Work:</strong> When you fetch data, you can assign
+            one or more tags to that fetch operation. Later, when you call{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              revalidateTag('tag-name')
+            </code>
+            , Next.js invalidates all cached data that was tagged with that
+            name. You can use multiple tags per fetch (e.g., both 'products' and
+            'product-123') to allow both bulk invalidation (all products) and
+            specific invalidation (single product). Tags are hierarchical - you
+            can use patterns like 'product-123' where 'product' is the category
+            and '123' is the specific ID.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Cache Keys (Advanced):</strong> For more advanced use cases,
+            you can use{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              unstable_cache
+            </code>{" "}
+            to create custom cache keys and control caching behavior for
+            non-fetch operations (like database queries or complex
+            computations). This is useful when you want to cache the result of a
+            function call with specific parameters. The cache key prefix helps
+            organize cached entries, and you can still use tags for
+            invalidation. Note that this API is marked as unstable, so use it
+            cautiously in production.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Best Practices:</strong> Use descriptive tag names that
+            clearly indicate what content they represent. Group related content
+            under common tags (e.g., all product pages tagged 'products'). Use
+            specific tags for individual items when you need granular control.
+            Combine tags strategically - tag both the category and specific item
+            for flexibility. Avoid too many tags per fetch as it can complicate
+            invalidation logic. Document your tag strategy so team members
+            understand the invalidation patterns.
+          </p>
           <CodeBlock
             code={`// Using Tags for Grouped Revalidation
 export default async function ProductPage({ params }) {
@@ -440,10 +580,38 @@ const getCachedData = unstable_cache(
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             7. Data Fetching Patterns & Best Practices
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Understanding different data fetching patterns is crucial for
+            optimizing performance and user experience. The key is knowing when
+            to fetch data in parallel (independent sources) versus sequentially
+            (dependent operations), how to handle loading states, and proper
+            error handling strategies.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Pattern Selection:</strong> Always fetch data in parallel
+            when sources are independent - this minimizes total loading time.
+            Use sequential fetching only when one operation depends on the
+            result of another. Use Suspense boundaries to show loading states
+            for individual components rather than blocking the entire page.
+            Implement proper error handling at multiple levels - route-level
+            with error.js, component-level with try-catch, and use notFound()
+            for missing resources. These patterns ensure fast, resilient
+            applications that provide good user feedback.
+          </p>
 
           <h3 className="mb-2 text-xl font-semibold text-gray-800 dark:text-gray-200">
             Parallel Data Fetching
           </h3>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            When you have multiple independent data sources, fetch them
+            simultaneously using{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              Promise.all()
+            </code>
+            . This reduces total loading time from the sum of all fetches to the
+            duration of the slowest fetch. This is the preferred pattern
+            whenever possible.
+          </p>
           <CodeBlock
             code={`// Fetch multiple data sources in parallel
 export default async function Page() {
@@ -471,6 +639,12 @@ export default async function Page() {
           <h3 className="mb-2 mt-4 text-xl font-semibold text-gray-800 dark:text-gray-200">
             Sequential Data Fetching
           </h3>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Use sequential fetching when one data fetch depends on the result of
+            another. For example, fetching user details first, then fetching
+            that user's posts using their ID. While this takes longer, it's
+            necessary when there are dependencies between data sources.
+          </p>
           <CodeBlock
             code={`// When second fetch depends on first
 export default async function Page() {
@@ -485,6 +659,15 @@ export default async function Page() {
           <h3 className="mb-2 mt-4 text-xl font-semibold text-gray-800 dark:text-gray-200">
             Loading States with Suspense
           </h3>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            React Suspense allows you to show loading states for specific
+            components without blocking the entire page. Wrap async Server
+            Components in Suspense boundaries with fallback UI. This enables
+            progressive rendering where fast components appear immediately while
+            slower ones show loading states. Multiple Suspense boundaries can
+            show different loading states for different parts of the page
+            simultaneously.
+          </p>
           <CodeBlock
             code={`import { Suspense } from 'react';
 
@@ -509,6 +692,20 @@ export default function Page() {
           <h3 className="mb-2 mt-4 text-xl font-semibold text-gray-800 dark:text-gray-200">
             Error Handling
           </h3>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Implement error handling at multiple levels for robust applications.
+            Route-level error boundaries (
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              error.js
+            </code>
+            ) catch errors in that route segment and children. Component-level
+            try-catch handles errors in specific data fetching operations. Use{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              notFound()
+            </code>{" "}
+            to show 404 pages for missing resources. Always provide
+            user-friendly error messages and retry options when appropriate.
+          </p>
           <CodeBlock
             code={`// Using error.js for route-level errors
 // app/products/error.js

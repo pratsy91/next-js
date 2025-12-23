@@ -427,6 +427,26 @@ export default function SettingsPage() {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             6. Special Files
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            App Router has several special files that provide built-in
+            functionality for common scenarios. These files follow naming
+            conventions and are automatically recognized by Next.js, providing
+            functionality like layouts, loading states, error boundaries, and
+            API endpoints without additional configuration.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Understanding Special Files:</strong> Each special file has
+            a specific purpose and runs at different times in the request
+            lifecycle. They're scoped to their route segment, meaning a{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              loading.js
+            </code>{" "}
+            in a folder only handles loading for that segment and its children.
+            This granular control allows you to have different loading states,
+            error handling, and layouts at different levels of your application.
+            Special files are a powerful feature that eliminates the need for
+            manual setup of common patterns.
+          </p>
           <ul className="mb-4 list-inside list-disc space-y-2 text-gray-600 dark:text-gray-300">
             <li>
               <strong>layout.js:</strong> Shared UI for a segment and its
@@ -466,6 +486,28 @@ export default function SettingsPage() {
             7. Streaming & Suspense
           </h2>
           <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Next.js streams HTML progressively as Server Components render,
+            sending HTML to the client as soon as it's ready rather than waiting
+            for the entire page to render. This dramatically improves Time to
+            First Byte (TTFB) and allows users to see content faster.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>How Streaming Works:</strong> When a Server Component
+            wrapped in Suspense encounters an async operation (like await),
+            Next.js can pause rendering that component, send the HTML generated
+            so far to the client, and resume when the async operation completes.
+            This means fast components render immediately while slow ones are
+            still loading. The browser progressively renders the streamed HTML,
+            so users see content as it becomes available.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              loading.js
+            </code>{" "}
+            files provide fallback UI during streaming. This pattern is
+            particularly powerful for pages with mixed fast and slow content -
+            critical content can appear immediately while secondary content
+            loads in the background.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
             Next.js streams HTML progressively as Server Components render.
           </p>
 
@@ -504,6 +546,26 @@ export default function Loading() {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             8. Server Actions & Progressive Enhancement
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Server Actions are async functions that run on the server and can be
+            called directly from forms or Client Components. They provide a
+            simpler alternative to API routes for mutations, with built-in
+            progressive enhancement that ensures forms work even without
+            JavaScript enabled.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Progressive Enhancement:</strong> Server Actions work with
+            native HTML forms - if JavaScript is disabled or fails to load, the
+            form still submits and the Server Action executes. This ensures your
+            application remains functional even in degraded conditions. When
+            JavaScript is available, Server Actions provide a better experience
+            with client-side validation, optimistic updates, and no page
+            reloads. This pattern is fundamental to building resilient web
+            applications that work for all users, regardless of their browser
+            capabilities or network conditions. Progressive enhancement means
+            building from a solid base (HTML forms) and enhancing with
+            JavaScript when available.
+          </p>
           <p className="mb-4 text-gray-600 dark:text-gray-300">
             Server Actions enable form submissions and mutations without API
             routes.

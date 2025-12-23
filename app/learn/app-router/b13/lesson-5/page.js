@@ -96,6 +96,24 @@ export async function PATCH(request) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             2. HTTP Methods (GET, POST, PUT, DELETE, PATCH)
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Route Handlers support all standard HTTP methods through named
+            exports. Each method has semantic meaning: GET for retrieving data
+            (should be idempotent), POST for creating resources, PUT for full
+            resource replacement, PATCH for partial updates, and DELETE for
+            removing resources. This follows REST principles and allows you to
+            build proper RESTful APIs.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Best Practices:</strong> GET requests should be idempotent
+            and never cause side effects. POST is typically used for creating
+            resources and returns 201 (Created) with the new resource. PUT
+            replaces the entire resource, while PATCH updates only specified
+            fields. DELETE removes resources and typically returns 204 (No
+            Content) or 200 with confirmation. Always return appropriate HTTP
+            status codes (200 for success, 201 for created, 400 for bad request,
+            401 for unauthorized, 404 for not found, 500 for server errors).
+          </p>
           <CodeBlock
             code={`// app/api/users/route.js
 import { NextResponse } from 'next/server';
@@ -150,6 +168,29 @@ export async function DELETE(request) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             3. Request & Response APIs
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Route Handlers use Web Request and Response APIs, which are standard
+            Web APIs available in modern JavaScript runtimes. The{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              NextRequest
+            </code>{" "}
+            extends the standard Request API with Next.js-specific features,
+            while{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              NextResponse
+            </code>{" "}
+            extends Response with additional utilities.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Key Features:</strong> The Request object provides access to
+            URL, headers, cookies, method, and body. You can read the body as
+            JSON, FormData, or text depending on the content type. The Response
+            object allows setting status codes, headers, and cookies. Unlike
+            Pages Router API routes that use Node.js req/res objects, Route
+            Handlers use standard Web APIs, making code more portable and
+            aligned with web standards. This also enables better compatibility
+            with Edge Runtime.
+          </p>
           <CodeBlock
             code={`import { NextRequest, NextResponse } from 'next/server';
 
@@ -227,6 +268,30 @@ export async function GET(request: NextRequest) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             5. Streaming Responses
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Streaming responses allow you to send data incrementally to the
+            client as it becomes available, rather than waiting for all data to
+            be ready. This is useful for long-running operations, Server-Sent
+            Events (SSE), or progressive data loading where you want to show
+            partial results immediately.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Use Cases:</strong> Streaming is perfect for real-time
+            updates (chat applications, live feeds), long-running data
+            processing where you can show progress, or when you want to improve
+            Time to First Byte (TTFB) by starting to send data before all
+            processing is complete. The stream uses the ReadableStream API,
+            which is a Web Standard, and you control when data chunks are sent
+            using the controller. Set appropriate headers like{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              Content-Type: text/event-stream
+            </code>{" "}
+            for SSE or{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              Cache-Control: no-cache
+            </code>{" "}
+            to prevent caching of streaming responses.
+          </p>
           <CodeBlock
             code={`import { NextResponse } from 'next/server';
 
@@ -259,6 +324,39 @@ export async function GET(request) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             6. Route Segment Config
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Route Segment Config allows you to configure route-level behavior
+            through exported constants. These settings control rendering
+            strategy, caching, runtime environment, and dynamic parameter
+            handling. This provides fine-grained control over how each route
+            behaves without modifying the actual handler logic.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Key Options:</strong>{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              dynamic
+            </code>{" "}
+            controls whether the route is statically or dynamically rendered,{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              dynamicParams
+            </code>{" "}
+            determines if unknown dynamic segments return 404 or are generated
+            on-demand,{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              revalidate
+            </code>{" "}
+            sets ISR revalidation time,{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              runtime
+            </code>{" "}
+            chooses between Node.js and Edge runtime, and{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              preferredRegion
+            </code>{" "}
+            controls geographic deployment. These configs are particularly
+            useful for API routes where you want different caching or runtime
+            behavior than your pages.
+          </p>
           <CodeBlock
             code={`// app/api/data/route.js
 export const dynamic = 'force-dynamic'; // or 'auto', 'force-static'
@@ -288,6 +386,24 @@ export async function GET(request) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             7. API Error Handling
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Proper error handling in Route Handlers is crucial for building
+            robust APIs. Always wrap async operations in try-catch blocks and
+            return appropriate HTTP status codes with meaningful error messages.
+            Good error handling improves debugging, provides better user
+            experience, and helps with monitoring and logging.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Best Practices:</strong> Use try-catch for all async
+            operations, return appropriate status codes (400 for client errors
+            like validation failures, 401 for authentication issues, 403 for
+            authorization problems, 404 for not found, 500 for server errors),
+            include error messages in development but sanitize them in
+            production, log errors for debugging while not exposing sensitive
+            information to clients, and validate input early to catch errors
+            before processing. Consider using error classes or error handling
+            utilities for consistency across your API.
+          </p>
           <CodeBlock
             code={`import { NextResponse } from 'next/server';
 
@@ -342,6 +458,25 @@ export async function GET(request) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             8. Authentication & Authorization
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Authentication verifies who the user is, while authorization
+            determines what they can do. In Route Handlers, you typically check
+            authentication tokens from headers (Authorization header) or
+            cookies, verify them (JWT validation, session checks), and then
+            check permissions before allowing access to protected resources.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Security Best Practices:</strong> Always validate tokens on
+            the server side, never trust client-side authentication alone. Use
+            secure, httpOnly cookies for session tokens to prevent XSS attacks.
+            Implement proper CORS policies if your API is accessed from
+            different origins. Return 401 (Unauthorized) when authentication
+            fails and 403 (Forbidden) when authentication succeeds but
+            authorization fails. Consider using middleware for route-level
+            authentication checks to avoid code duplication. Rate limiting
+            should be implemented to prevent brute force attacks on
+            authentication endpoints.
+          </p>
           <CodeBlock
             code={`import { NextResponse } from 'next/server';
 import { verifyToken } from '@/lib/auth';

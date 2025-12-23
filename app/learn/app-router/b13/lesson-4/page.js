@@ -166,6 +166,40 @@ export async function createPost(prevState, formData) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             3. useFormStatus Hook
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            The{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              useFormStatus
+            </code>{" "}
+            hook (React 19+) provides access to the status of the nearest parent
+            form submission. It must be used within a form and can only be
+            called from Client Components that are descendants of a form element
+            using a Server Action.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>How it works:</strong> The hook returns an object with
+            properties like{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              pending
+            </code>{" "}
+            (true when form is submitting),{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              data
+            </code>{" "}
+            (FormData being submitted),{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              method
+            </code>{" "}
+            (HTTP method), and{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              action
+            </code>{" "}
+            (the action being called). This allows you to show loading states,
+            disable buttons, or display progress indicators during form
+            submission without manually managing state. The hook automatically
+            resets when the form submission completes, making it perfect for
+            optimistic UI updates and loading indicators.
+          </p>
           <CodeBlock
             code={`'use client';
 import { useFormStatus } from 'react-dom';
@@ -256,6 +290,30 @@ export default function Comments({ comments }) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             5. Revalidation Patterns
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Revalidation ensures that cached data stays fresh when content
+            changes. After Server Actions mutate data (create, update, delete),
+            you typically want to invalidate related caches so users see the
+            latest information. Next.js provides several revalidation functions
+            for different use cases.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Revalidation Methods:</strong>{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              revalidatePath()
+            </code>{" "}
+            invalidates all cached data for a specific path, useful when you
+            know the exact route that needs updating.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              revalidateTag()
+            </code>{" "}
+            (with cacheLife in Next.js 16) invalidates all data tagged with a
+            specific tag, perfect for related content that might span multiple
+            routes. Tag-based revalidation is more efficient for large
+            applications as you can tag related data and invalidate everything
+            related at once. Always call revalidation after successful mutations
+            to ensure users see updated content immediately.
+          </p>
           <CodeBlock
             code={`'use server';
 import { revalidatePath, revalidateTag } from 'next/cache';
@@ -286,6 +344,32 @@ revalidateTag('posts', { cacheLife: 60 });`}
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             6. Error Handling & Validation
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Server Actions should always handle errors gracefully and validate
+            input before processing. Use try-catch blocks for all async
+            operations and return meaningful error information that can be
+            displayed to users or logged for debugging. The{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              useActionState
+            </code>{" "}
+            hook (React 19+) or{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              useFormState
+            </code>{" "}
+            makes it easy to handle errors in the UI.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Error Handling Strategy:</strong> Validate input early and
+            return user-friendly error messages. Use try-catch to handle
+            unexpected errors and return appropriate error objects. Never expose
+            sensitive error details to clients in production. Log errors
+            server-side for debugging. Return structured error objects that
+            components can easily consume (like error objects with message and
+            field-specific errors). Consider using error classes or validation
+            libraries to standardize error handling across your application.
+            Always handle both validation errors (user input issues) and system
+            errors (database failures, network issues).
+          </p>
           <CodeBlock
             code={`'use server';
 
@@ -390,6 +474,24 @@ export default function EnhancedForm() {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             8. File Uploads & Mutations
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Server Actions can handle file uploads by receiving FormData with
+            file inputs. The file data is available as File objects that can be
+            processed, saved, or uploaded to cloud storage. File uploads require
+            proper validation, size limits, and security considerations.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Security Considerations:</strong> Always validate file types
+            using MIME type checking (not just file extensions), enforce size
+            limits to prevent DoS attacks, scan files for malicious content if
+            storing user uploads, store files outside the web root or in cloud
+            storage (not directly accessible), and use secure, unique filenames
+            to prevent conflicts and directory traversal attacks. Consider
+            implementing progress tracking for large file uploads and provide
+            clear error messages when uploads fail. For production, consider
+            using dedicated file upload services or CDNs that handle scaling and
+            optimization.
+          </p>
           <CodeBlock
             code={`'use server';
 

@@ -82,6 +82,35 @@ export default function Page() {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             2. Static Metadata
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Static metadata is defined using a metadata object that contains all
+            the metadata properties for your page. This is used when metadata
+            doesn't change based on route parameters or data - it's constant for
+            that route. The metadata object supports comprehensive SEO
+            properties including title templates, descriptions, Open Graph tags,
+            Twitter Cards, robots directives, and more.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Key Features:</strong> Title templates allow you to define a
+            default title and a template for nested routes (e.g., "About | My
+            Site"). The metadata object supports nested objects for Open Graph,
+            Twitter Cards, and robots directives, providing fine-grained
+            control.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              metadataBase
+            </code>{" "}
+            sets a base URL for relative URLs in metadata.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              formatDetection
+            </code>{" "}
+            controls automatic detection of emails, addresses, and phone
+            numbers.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              alternates
+            </code>{" "}
+            supports canonical URLs and language alternatives for
+            internationalization.
+          </p>
           <CodeBlock
             code={`export const metadata: Metadata = {
   title: {

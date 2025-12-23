@@ -31,6 +31,25 @@ export default function Lesson10Page() {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             1. Authentication & Authorization
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Implementing authentication in App Router involves managing user
+            sessions, verifying credentials, and protecting routes. JWT (JSON
+            Web Tokens) is a common approach for stateless authentication,
+            stored in secure, httpOnly cookies to prevent XSS attacks. Session
+            management can be handled through cookies, with tokens verified on
+            each request.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Security Best Practices:</strong> Always use httpOnly
+            cookies to store session tokens, preventing JavaScript access. Set
+            secure flag in production to ensure cookies only transmit over
+            HTTPS. Use sameSite='strict' to prevent CSRF attacks. Verify tokens
+            server-side on every protected request - never trust client-side
+            authentication state. Implement proper token expiration and refresh
+            mechanisms. Store secrets in environment variables, never in code.
+            Consider using established libraries like NextAuth.js for production
+            applications, which handle many security concerns automatically.
+          </p>
           <CodeBlock
             code={`// Session-based authentication
 // lib/auth.js
@@ -88,6 +107,25 @@ export default async function DashboardPage() {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             2. Internationalization (i18n)
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Internationalization involves making your application support
+            multiple languages and locales. This typically requires detecting
+            the user's preferred language, storing translations, and rendering
+            content in the appropriate language. Next.js App Router supports
+            i18n through routing strategies and libraries like next-intl.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Implementation Approaches:</strong> URL-based routing uses
+            the locale in the URL path (e.g., /en/about, /fr/about), making
+            locales explicit and SEO-friendly. Cookie/header-based detection
+            reads Accept-Language headers or stored preferences. Libraries like
+            next-intl provide utilities for translation, date/number formatting,
+            and locale-specific content. Middleware can detect locale and
+            redirect users to the appropriate language version. Consider
+            performance implications - you may need to generate static pages for
+            each locale, increasing build time. Always provide a language
+            switcher and ensure fallback to a default locale.
+          </p>
           <CodeBlock
             code={`// Using next-intl or similar
 // app/[locale]/layout.js
@@ -127,6 +165,26 @@ export const config = {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             3. Multi-tenant Applications
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Multi-tenant applications serve multiple customers (tenants) from a
+            single codebase, with each tenant's data isolated. The tenant
+            identifier typically comes from the subdomain, path segment, or
+            header, and all data operations must be scoped to the current tenant
+            to ensure proper isolation.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Implementation Considerations:</strong> Tenant isolation is
+            critical - always filter queries by tenant ID, never trust
+            client-provided tenant information, and validate tenant access on
+            every request. Use middleware to extract and validate tenant
+            information before routes execute. Consider database strategies:
+            separate databases per tenant (strongest isolation, higher cost),
+            shared database with tenant_id columns (most common), or
+            schema-per-tenant (middle ground). Cache tenant-specific data
+            appropriately, and ensure background jobs and cron tasks respect
+            tenant boundaries. Always include tenant validation in your data
+            access layer to prevent accidental data leaks between tenants.
+          </p>
           <CodeBlock
             code={`// app/[tenant]/layout.js
 export default async function TenantLayout({ children, params }) {
@@ -170,6 +228,24 @@ export function middleware(request) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             4. File Upload & Processing
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            File uploads in Server Actions handle FormData containing File
+            objects. Files can be processed, saved to disk, uploaded to cloud
+            storage (S3, Cloudinary), or passed to other services. Proper
+            validation, size limits, and security measures are essential.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Security & Best Practices:</strong> Always validate file
+            types by MIME type (never trust file extensions), enforce size
+            limits to prevent DoS attacks, use unique filenames to prevent
+            conflicts and directory traversal, store files outside web root or
+            in cloud storage, scan files for malware if accepting user uploads,
+            and implement rate limiting on upload endpoints. For large files,
+            consider using multipart uploads with progress tracking. Use cloud
+            storage services (AWS S3, Cloudinary, etc.) rather than local
+            storage for scalability and reliability. Generate secure, unique
+            filenames and never use user-provided filenames directly.
+          </p>
           <CodeBlock
             code={`// Server Action for file upload
 'use server';
@@ -225,6 +301,26 @@ export default function FileUpload() {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             5. Real-time Features
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Real-time features require persistent connections between client and
+            server to push updates as they happen. Server-Sent Events (SSE)
+            provide a simple way to stream data from server to client, while
+            WebSockets enable bidirectional communication for more complex
+            real-time applications.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Implementation Approaches:</strong> Server-Sent Events (SSE)
+            are simpler and one-way (server → client), perfect for live feeds,
+            notifications, or progress updates. They use standard HTTP and
+            automatically reconnect. WebSockets provide full bidirectional
+            communication, better for chat, collaborative editing, or gaming.
+            Route Handlers can create streaming responses using ReadableStream
+            for SSE. For production applications, consider using dedicated
+            services (Pusher, Ably, Socket.io) that handle scaling,
+            reconnection, and cross-browser compatibility. Always handle
+            connection cleanup, implement reconnection logic, and consider rate
+            limiting for real-time endpoints.
+          </p>
           <CodeBlock
             code={`// Using Server-Sent Events
 // app/api/events/route.js

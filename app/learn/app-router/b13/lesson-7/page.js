@@ -197,6 +197,33 @@ module.exports = {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             3. Font Optimization (next/font)
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            The{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              next/font
+            </code>{" "}
+            package automatically optimizes fonts by self-hosting them,
+            eliminating external font requests, and automatically generating CSS
+            with font-face declarations. This removes layout shift, improves
+            performance, and enhances privacy by not sending requests to
+            external font services.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>How it works:</strong> Next.js downloads fonts at build
+            time, generates optimized font files, and automatically adds
+            font-face CSS. Fonts are self-hosted, so there are no external
+            network requests, and they're served from the same domain as your
+            application. The{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              display: 'swap'
+            </code>{" "}
+            option prevents invisible text during font loading (FOIT) by showing
+            fallback text immediately. Font subsetting is automatic, including
+            only characters used in your application to reduce file size. For
+            interview purposes, understand that next/font eliminates
+            render-blocking font requests, improves Core Web Vitals (especially
+            CLS), and works with both Google Fonts and local font files.
+          </p>
           <CodeBlock
             code={`import { Inter, Roboto } from 'next/font/google';
 
@@ -235,6 +262,40 @@ const myFont = localFont({
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             4. Script Optimization (next/script)
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            The{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              next/script
+            </code>{" "}
+            component optimizes third-party scripts by controlling when and how
+            they load. This prevents scripts from blocking page rendering and
+            allows you to prioritize critical scripts while deferring
+            non-essential ones.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Loading Strategies:</strong>{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              afterInteractive
+            </code>{" "}
+            loads scripts after the page becomes interactive, perfect for
+            analytics or chat widgets.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              lazyOnload
+            </code>{" "}
+            defers scripts until the browser's idle time, ideal for non-critical
+            scripts like social media embeds.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              beforeInteractive
+            </code>{" "}
+            loads scripts before the page becomes interactive, only for critical
+            scripts that must run early (like polyfills). The{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              worker
+            </code>{" "}
+            strategy (experimental) runs scripts in a Web Worker, keeping the
+            main thread free. Always use the least aggressive strategy that
+            meets your needs to avoid blocking rendering.
+          </p>
           <CodeBlock
             code={`import Script from 'next/script';
 
@@ -281,6 +342,25 @@ export default function Page() {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             5. Streaming & Partial Prerendering
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Streaming allows Next.js to send HTML incrementally as Server
+            Components render, rather than waiting for all components to finish.
+            This enables progressive rendering where users see content as soon
+            as it's ready, dramatically improving Time to First Byte (TTFB) and
+            perceived performance.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>How Streaming Works:</strong> When a Server Component is
+            wrapped in Suspense, Next.js can stream its HTML as it renders. The
+            browser receives and displays HTML chunks progressively. If a
+            component throws a Promise (await), Next.js pauses that part of the
+            stream, sends what's ready, and resumes when the promise resolves.
+            This means fast components can render immediately while slower ones
+            are still loading. Partial Prerendering (PPR) combines this with
+            static generation - the static shell is pre-rendered at build time,
+            and dynamic "holes" are streamed in at request time, giving you the
+            benefits of both static and dynamic rendering.
+          </p>
           <CodeBlock
             code={`import { Suspense } from 'react';
 
@@ -327,6 +407,35 @@ export default function Page() {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             6. Caching Strategies
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Effective caching is crucial for performance and cost optimization.
+            Next.js has multiple cache layers, and understanding when to use
+            each strategy helps you build fast, efficient applications while
+            ensuring data freshness when needed.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Cache Layers:</strong>{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              Request Memoization
+            </code>{" "}
+            deduplicates identical fetch requests within the same render pass.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              Data Cache
+            </code>{" "}
+            persists fetch responses across builds and deployments.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              Full Route Cache
+            </code>{" "}
+            caches the rendered HTML output.{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              Router Cache
+            </code>{" "}
+            stores visited routes on the client. Time-based revalidation (ISR)
+            updates cached content periodically, while tag-based revalidation
+            allows on-demand cache invalidation when content changes. Choose
+            your strategy based on how frequently data changes and how critical
+            freshness is.
+          </p>
           <CodeBlock
             code={`// Time-based revalidation
 const data = await fetch('https://api.example.com/data', {
