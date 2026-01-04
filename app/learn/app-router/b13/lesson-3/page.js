@@ -500,6 +500,62 @@ export default function NavigationExample() {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             8. Middleware & Route Protection
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Middleware (or{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              proxy.ts
+            </code>{" "}
+            in Next.js 16) runs before requests complete, allowing you to modify
+            requests, redirect users, rewrite URLs, set headers, or block
+            requests based on conditions. It executes on the Edge Runtime,
+            providing low latency but with limitations on Node.js APIs.
+            Middleware is perfect for authentication, authorization, A/B
+            testing, geolocation-based routing, bot detection, and logging.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>How Middleware Works:</strong> Middleware runs on every
+            request that matches the configured matcher pattern, before the
+            request reaches your routes. It can inspect cookies, headers, query
+            parameters, and the pathname. Based on these values, middleware can
+            return a modified response (with headers), redirect to another URL,
+            rewrite the URL (serving different content at the same URL), or
+            continue with{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              NextResponse.next()
+            </code>
+            . The matcher configuration determines which routes the middleware
+            applies to, using path patterns or regular expressions.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Route Protection Pattern:</strong> One of the most common
+            use cases is protecting routes that require authentication.
+            Middleware checks for authentication tokens in cookies or headers
+            before allowing access to protected routes. If no valid token is
+            found, it redirects to a login page. This happens before any route
+            code executes, providing efficient protection without loading
+            unnecessary page code. You can also implement role-based access
+            control (RBAC) by checking user roles or permissions in middleware.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Edge Runtime Limitations:</strong> Middleware runs on the
+            Edge Runtime, which means it has access to Web Standard APIs but not
+            full Node.js APIs. You cannot use the file system, native Node.js
+            modules, or certain Node.js globals. However, Edge Runtime provides
+            faster execution with lower latency since it runs closer to users.
+            If you need Node.js APIs, you should handle that logic in Route
+            Handlers or Server Components instead.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Interview Points:</strong> Understand that middleware runs
+            before routes execute, making it ideal for cross-cutting concerns.
+            Know the difference between redirect (changes URL) and rewrite
+            (serves different content at same URL). Understand the matcher
+            configuration and how to use path patterns effectively. Be aware of
+            Edge Runtime limitations and when to use middleware vs. Server
+            Components or Route Handlers. Know how to properly implement
+            authentication checks and handle edge cases (like public routes, API
+            routes, static assets).
+          </p>
           <CodeBlock
             code={`// middleware.js (or proxy.ts in Next.js 16)
 import { NextResponse } from 'next/server';
