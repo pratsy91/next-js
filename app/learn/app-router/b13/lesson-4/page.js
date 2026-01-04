@@ -425,6 +425,67 @@ export default function Form() {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             7. Progressive Enhancement
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Progressive Enhancement is a web development philosophy that ensures
+            your application works with a solid baseline (HTML forms) and
+            enhances the experience when JavaScript is available. Server Actions
+            implement progressive enhancement automatically - forms work even
+            when JavaScript is disabled, fails to load, or is blocked by browser
+            extensions, but provide enhanced interactions when JavaScript is
+            available.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Why Progressive Enhancement Matters:</strong> Not all users
+            have JavaScript enabled or reliable connections. Some users disable
+            JavaScript for privacy or performance reasons, others use browsers
+            or extensions that block scripts, and network conditions can cause
+            JavaScript to fail loading. Progressive Enhancement ensures your
+            application remains functional for all users, providing a more
+            inclusive and resilient experience. This approach also improves SEO
+            since search engines can submit and index forms without JavaScript.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>How Server Actions Enable Progressive Enhancement:</strong>{" "}
+            When you use a Server Action with an HTML form's{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              action
+            </code>{" "}
+            prop, the form uses native HTML form submission. If JavaScript is
+            available, Next.js intercepts the submission and handles it via
+            fetch for a smoother experience (no page reload). If JavaScript
+            isn't available, the form falls back to a traditional POST request,
+            which still works perfectly because Server Actions handle both
+            methods. This "enhance when possible, degrade gracefully" approach
+            is the core of progressive enhancement.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Implementation Patterns:</strong> Start with a basic form
+            that uses native HTML validation and form submission. Then enhance
+            it with JavaScript to add features like optimistic updates, loading
+            states, animations, or client-side validation. The form should
+            remain functional at each enhancement level. Use{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              useTransition
+            </code>{" "}
+            or{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              useFormStatus
+            </code>{" "}
+            to add loading indicators without breaking the base functionality.
+            Never rely solely on JavaScript for critical functionality - always
+            ensure the HTML form works independently.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Interview Points:</strong> Understand that progressive
+            enhancement is about building from a solid base and adding
+            enhancements, not graceful degradation (which starts complex and
+            removes features). Know that Server Actions work with native HTML
+            forms, making progressive enhancement automatic. Be able to explain
+            why this approach is better for accessibility, SEO, and resilience.
+            Understand the difference between progressive enhancement
+            (HTML-first) and single-page applications (JavaScript-required), and
+            when each is appropriate.
+          </p>
           <CodeBlock
             code={`// Server Actions work without JavaScript!
 // Form works even if JS is disabled

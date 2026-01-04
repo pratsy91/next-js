@@ -232,6 +232,103 @@ export async function GET(request: NextRequest) {
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             4. Headers, Cookies, & Query Params
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Request headers, cookies, and query parameters are three fundamental
+            ways to pass data and context in HTTP requests. Each serves
+            different purposes: headers contain metadata about the request,
+            cookies store persistent client-side data, and query parameters
+            provide URL-based data that's visible and shareable. Understanding
+            how to read and set these is essential for building robust APIs.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>HTTP Headers:</strong> Headers are key-value pairs sent with
+            every HTTP request and response. Common request headers include{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              Authorization
+            </code>{" "}
+            for authentication tokens,{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              Content-Type
+            </code>{" "}
+            indicating the request body format,{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              User-Agent
+            </code>{" "}
+            identifying the client, and custom headers for application-specific
+            data. Response headers control caching (
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              Cache-Control
+            </code>
+            ), CORS policies, and content negotiation. Headers are
+            case-insensitive and can contain multiple values for the same key.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Cookies:</strong> Cookies are small pieces of data stored in
+            the browser and automatically sent with requests to the same domain.
+            They're ideal for authentication tokens, session identifiers, user
+            preferences, or tracking data. Unlike headers, cookies persist
+            across browser sessions when given an expiration date. Security is
+            crucial: use{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              httpOnly
+            </code>{" "}
+            to prevent JavaScript access (preventing XSS attacks),{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              secure
+            </code>{" "}
+            to only send over HTTPS, and{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              sameSite
+            </code>{" "}
+            to prevent CSRF attacks. The{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              maxAge
+            </code>{" "}
+            or{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              expires
+            </code>{" "}
+            options control cookie lifetime.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Query Parameters:</strong> Query parameters are URL-encoded
+            key-value pairs appended to URLs after a{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              ?
+            </code>{" "}
+            (e.g.,{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              /api/users?page=1&limit=10
+            </code>
+            ). They're perfect for filtering, pagination, search terms, or any
+            data that should be shareable via URL. Query parameters are visible
+            in URLs, browser history, and server logs, so never put sensitive
+            data (passwords, tokens) in them. Use{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              searchParams.get()
+            </code>{" "}
+            for single values and{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              searchParams.getAll()
+            </code>{" "}
+            for parameters that appear multiple times (like{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              ?tag=react&tag=nextjs
+            </code>
+            ).
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>When to Use Each:</strong> Use headers for request metadata
+            (authentication, content type, caching directives), cookies for
+            persistent client data (session tokens, user preferences), and query
+            parameters for shareable, URL-based data (filters, pagination,
+            search). Headers are not persisted and must be set on every request.
+            Cookies persist automatically until expiration. Query parameters are
+            visible in URLs, making them ideal for shareable links and
+            bookmarkable states. Always validate and sanitize input from all
+            three sources, as they're all user-controlled and potentially
+            malicious.
+          </p>
           <CodeBlock
             code={`export async function GET(request) {
   // Headers

@@ -467,6 +467,84 @@ export const revalidate = 3600; // 1 hour`}
           <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
             7. Bundle Analyzer & Performance Metrics
           </h2>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Bundle analysis and performance monitoring are essential practices
+            for understanding and optimizing your application's performance.
+            Bundle analyzers visualize your JavaScript bundle composition,
+            helping you identify large dependencies, duplicate code, and
+            optimization opportunities. Performance metrics provide quantitative
+            data about how your application performs in real-world conditions,
+            enabling data-driven optimization decisions.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Bundle Analyzer:</strong> The{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              @next/bundle-analyzer
+            </code>{" "}
+            package provides interactive treemap visualizations of your bundle
+            sizes. After running the analyzer, it generates visual reports
+            showing which packages and modules contribute the most to bundle
+            size, helping you identify optimization opportunities. Large bundles
+            hurt performance by increasing download time, parse time, and
+            execution time, especially on slower networks or devices. Bundle
+            analysis should be part of your regular performance optimization
+            workflow, especially before deploying new features or major updates.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>What to Look For:</strong> When analyzing bundles, look for
+            packages over 100KB that might benefit from dynamic imports,
+            duplicate dependencies that could be deduplicated, large third-party
+            libraries that could be replaced with lighter alternatives, unused
+            code (dead code) that can be tree-shaken, and opportunities for code
+            splitting where large chunks could be split further. The treemap
+            visualization makes it easy to spot large dependencies at a glance -
+            darker or larger boxes represent bigger bundles.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Performance Metrics & Monitoring:</strong> Performance
+            monitoring involves tracking real-world metrics from actual users
+            using tools like Google Analytics, Vercel Analytics, or custom
+            solutions. Key metrics include page load times, Time to Interactive
+            (TTI), bundle sizes, Core Web Vitals (LCP, FID, CLS), and custom
+            business metrics. The browser's Performance API provides
+            programmatic access to timing information, allowing you to measure
+            specific operations and identify bottlenecks. Real User Monitoring
+            (RUM) captures data from actual users, providing insights that
+            synthetic testing might miss.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Performance Timing API:</strong> The browser's{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              performance.timing
+            </code>{" "}
+            and{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              performance.navigation
+            </code>{" "}
+            APIs provide detailed timing information about page loads, including
+            DNS lookup time, connection time, request/response time, DOM
+            processing time, and load event timing. These APIs enable precise
+            performance measurement and help identify specific stages of page
+            load that need optimization. Modern browsers also provide{" "}
+            <code className="rounded bg-gray-100 px-1 py-0.5 dark:bg-gray-700">
+              PerformanceObserver
+            </code>{" "}
+            for observing performance events like paint timing, resource timing,
+            and navigation timing.
+          </p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            <strong>Best Practices:</strong> Run bundle analysis regularly,
+            especially before releases, to catch bundle size regressions early.
+            Set bundle size budgets and fail CI/CD if budgets are exceeded.
+            Monitor Core Web Vitals in production using tools like Google Search
+            Console or Vercel Analytics. Set up alerts for performance
+            regressions to catch issues quickly. Use performance budgets to
+            prevent accidental performance degradation. Combine bundle analysis
+            with runtime performance monitoring for comprehensive optimization
+            insights. Remember that smaller bundles don't always mean faster
+            performance - execution time, network conditions, and caching also
+            matter.
+          </p>
           <CodeBlock
             code={`// Install
 npm install @next/bundle-analyzer
