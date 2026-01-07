@@ -312,6 +312,10 @@ const navigation = [
             name: "B13.10: Advanced Patterns",
             href: "/learn/app-router/b13/lesson-10",
           },
+          {
+            name: "B13.11: Debugging Code Questions",
+            href: "/learn/app-router/b13/lesson-11",
+          },
         ],
       },
     ],

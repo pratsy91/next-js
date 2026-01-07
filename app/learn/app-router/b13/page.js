@@ -171,6 +171,25 @@ const lessons = [
     ],
     status: "available",
   },
+  {
+    id: "lesson-11",
+    title: "B13.11: Debugging Code Questions & Solutions",
+    description:
+      "Common React & Next.js debugging scenarios with solutions - master interview debugging questions",
+    topics: [
+      "Server vs Client Component Errors",
+      "Hooks in Server Components",
+      "Async/Await Issues",
+      "State Management Bugs",
+      "useEffect Common Mistakes",
+      "Event Handler Issues",
+      "Hydration Errors",
+      "Build & Runtime Errors",
+      "Type Errors & Solutions",
+      "Caching & Revalidation Bugs",
+    ],
+    status: "available",
+  },
 ];
 
 export default function B13Page() {
