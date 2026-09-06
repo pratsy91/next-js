@@ -318,6 +318,60 @@ const navigation = [
           },
         ],
       },
+      {
+        name: "B14: Most Asked Interview Questions",
+        href: "/learn/app-router/b14",
+        children: [
+          {
+            name: "B14.1: Foundation & Setup (B1)",
+            href: "/learn/app-router/b14/lesson-1",
+          },
+          {
+            name: "B14.2: Routing System (B2)",
+            href: "/learn/app-router/b14/lesson-2",
+          },
+          {
+            name: "B14.3: Data Fetching (B3)",
+            href: "/learn/app-router/b14/lesson-3",
+          },
+          {
+            name: "B14.4: Server Actions (B4)",
+            href: "/learn/app-router/b14/lesson-4",
+          },
+          {
+            name: "B14.5: Route Handlers (B5)",
+            href: "/learn/app-router/b14/lesson-5",
+          },
+          {
+            name: "B14.6: Navigation (B6)",
+            href: "/learn/app-router/b14/lesson-6",
+          },
+          {
+            name: "B14.7: Metadata API (B7)",
+            href: "/learn/app-router/b14/lesson-7",
+          },
+          {
+            name: "B14.8: Components & Features (B8)",
+            href: "/learn/app-router/b14/lesson-8",
+          },
+          {
+            name: "B14.9: Styling (B9)",
+            href: "/learn/app-router/b14/lesson-9",
+          },
+          {
+            name: "B14.10: Advanced Features (B10)",
+            href: "/learn/app-router/b14/lesson-10",
+          },
+          {
+            name: "B14.11: Optimization (B11)",
+            href: "/learn/app-router/b14/lesson-11",
+          },
+          {
+            name: "B14.12: Deployment (B12)",
+            href: "/learn/app-router/b14/lesson-12",
+          },
+        ],
+      },
     ],
   },
   {

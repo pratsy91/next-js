@@ -91,7 +91,15 @@ const chapters = [
     title: "B13: Interview Cheatsheet",
     description:
       "Complete interview preparation guide with quick reference, patterns, and Q&A",
-    lessons: 10,
+    lessons: 11,
+    status: "available",
+  },
+  {
+    id: "b14",
+    title: "B14: Most Asked Interview Questions",
+    description:
+      "Module-wise most asked interview questions with answers — mapped to phases B1–B12, junior to senior",
+    lessons: 12,
     status: "available",
   },
 ];
