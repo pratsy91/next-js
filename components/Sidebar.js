@@ -372,6 +372,64 @@ const navigation = [
           },
         ],
       },
+      {
+        name: "B15: Real-World Scenarios",
+        href: "/learn/app-router/b15",
+        children: [
+          {
+            name: "B15.1: Foundation Incidents (B1)",
+            href: "/learn/app-router/b15/lesson-1",
+          },
+          {
+            name: "B15.2: Routing Incidents (B2)",
+            href: "/learn/app-router/b15/lesson-2",
+          },
+          {
+            name: "B15.3: Data Fetching Incidents (B3)",
+            href: "/learn/app-router/b15/lesson-3",
+          },
+          {
+            name: "B15.4: Server Action Incidents (B4)",
+            href: "/learn/app-router/b15/lesson-4",
+          },
+          {
+            name: "B15.5: Route Handler Incidents (B5)",
+            href: "/learn/app-router/b15/lesson-5",
+          },
+          {
+            name: "B15.6: Navigation Incidents (B6)",
+            href: "/learn/app-router/b15/lesson-6",
+          },
+          {
+            name: "B15.7: Metadata & SEO Incidents (B7)",
+            href: "/learn/app-router/b15/lesson-7",
+          },
+          {
+            name: "B15.8: Image, Script & Font (B8)",
+            href: "/learn/app-router/b15/lesson-8",
+          },
+          {
+            name: "B15.9: Styling Incidents (B9)",
+            href: "/learn/app-router/b15/lesson-9",
+          },
+          {
+            name: "B15.10: Advanced Feature Incidents (B10)",
+            href: "/learn/app-router/b15/lesson-10",
+          },
+          {
+            name: "B15.11: Performance Incidents (B11)",
+            href: "/learn/app-router/b15/lesson-11",
+          },
+          {
+            name: "B15.12: Deployment Incidents (B12)",
+            href: "/learn/app-router/b15/lesson-12",
+          },
+          {
+            name: "B15.13: General Production Debugging",
+            href: "/learn/app-router/b15/lesson-13",
+          },
+        ],
+      },
     ],
   },
   {

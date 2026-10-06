@@ -102,6 +102,14 @@ const chapters = [
     lessons: 12,
     status: "available",
   },
+  {
+    id: "b15",
+    title: "B15: Real-World Scenario Questions",
+    description:
+      "Production incidents and scenario interview questions with root cause and fix — mapped to B1–B12, plus general debugging",
+    lessons: 13,
+    status: "available",
+  },
 ];
 
 export default function AppRouterPage() {
